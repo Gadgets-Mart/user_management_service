@@ -1,53 +1,69 @@
 package com.userService.UserManagementService.model;
 
 
+import com.userService.UserManagementService.dto.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.UuidGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.math.BigInteger;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="users")
-@EntityListeners(AuditingEntityListener.class)
-public class UserModel {
+@Table(name="userDetails")
+public class UserModel{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "id")
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @UuidGenerator
+    private String id;
 
-    @Column(nullable=true,length =20)
+    @Column(name = "name",nullable = false,length = 100)
     private String name;
-    @Column(nullable = false, unique = true)
+
+    @Column(name = "email",nullable = false,unique = true,length = 150)
     private String email;
-    @Column(nullable = false)
+
+    @Column(name = "password",nullable = false)
     private String password;
-    @Column(nullable = false)
-    private  String role;
-    @Column(nullable = false,length = 10)
-    private String phoneNo;
-    private  String address;
-    private String city;
-    private  String state;
-    private  int pincode;
 
-    @CreatedDate
-    @Column(updatable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role",nullable = false)
+    private Role role=Role.customer;  //default value
+
+    //address field
+    @Column(name = "phone",length = 12)
+    private String phone;
+
+    @Column(name = "address_line")
+    private  String addressLine;
+
+    @Column(name = "city",length = 100)
+    private  String city;
+
+    @Column(name = "state",length = 100)
+    private String state;
+
+    @Column(name = "pincode",length = 10)
+    private String pincode;
+
+    @CreationTimestamp
+    @Column(name = "created_at",nullable = false,updatable = false)
     private Instant createdAt;
-    @LastModifiedDate
-    @Column(nullable = false)
+
+    @UpdateTimestamp
+    @Column(name = "updated_at",nullable = false)
     private Instant updatedAt;
-
-
-
-    //getter setter
-
 
 }

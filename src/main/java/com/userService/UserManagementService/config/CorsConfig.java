@@ -18,7 +18,8 @@ public class CorsConfig {
                 registry.addMapping("/**") //to allow all the backend api
                         .allowedOrigins("http://localhost:9900")  //to allow frontend
                         .allowedMethods("GET","PUT","POST","DELETE","PATCH") //to allow the request methods
-                        .allowedHeaders("*"); //to allow all headers Authorazation,Client_name,type ect
+                        .allowedHeaders("*")//to allow all headers Authorazation,Client_name,type ect
+                         .allowCredentials(true);  //to allow JWt /Auth headers
             }
         };
     }
