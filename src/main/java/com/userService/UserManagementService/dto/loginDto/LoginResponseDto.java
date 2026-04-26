@@ -1,4 +1,4 @@
-package com.userService.UserManagementService.dto;
+package com.userService.UserManagementService.dto.loginDto;
 
 
 import lombok.AllArgsConstructor;

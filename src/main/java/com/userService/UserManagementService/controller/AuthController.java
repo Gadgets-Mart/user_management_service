@@ -1,10 +1,9 @@
 package com.userService.UserManagementService.controller;
 
 
-import com.userService.UserManagementService.dto.LoginRequestDto;
-import com.userService.UserManagementService.dto.LoginResponseDto;
+import com.userService.UserManagementService.dto.loginDto.LoginRequestDto;
+import com.userService.UserManagementService.dto.loginDto.LoginResponseDto;
 import com.userService.UserManagementService.service.AuthService;
-import com.userService.UserManagementService.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

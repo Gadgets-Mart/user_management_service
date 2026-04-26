@@ -1,8 +1,8 @@
 package com.userService.UserManagementService.service;
 
 
-import com.userService.UserManagementService.dto.LoginRequestDto;
-import com.userService.UserManagementService.dto.LoginResponseDto;
+import com.userService.UserManagementService.dto.loginDto.LoginRequestDto;
+import com.userService.UserManagementService.dto.loginDto.LoginResponseDto;
 import com.userService.UserManagementService.model.UserModel;
 import com.userService.UserManagementService.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
