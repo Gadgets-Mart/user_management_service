@@ -2,6 +2,8 @@ package com.userService.UserManagementService.config;
 
 
 import com.userService.UserManagementService.filter.JwtFilter;
+import com.userService.UserManagementService.service.JwtService;
+import com.userService.UserManagementService.service.MyUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -38,22 +40,24 @@ public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
 
-    private final JwtFilter jwtFilter;
+    private final JwtService jwtService;
+
+    private final MyUserDetailsServiceImpl myUserDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 
         http
                 .csrf(s->s.disable())
-                .httpBasic(Customizer.withDefaults())   //Basic Auth Enabled
+//                .httpBasic(Customizer.withDefaults())   //Basic Auth Enabled
                 .authenticationProvider(dbAuthenticationProvider())
-                .authenticationProvider(inMemoryAuthenticationProvider())
+//                .authenticationProvider(inMemoryAuthenticationProvider())
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers("/api/user_management_service/register").permitAll()
                         .requestMatchers("/api/auth/login").permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
 
 
         return http.build();
@@ -69,6 +73,13 @@ public class SecurityConfig {
 
 
     @Bean
+    public JwtFilter jwtFilter(){
+        return new JwtFilter(jwtService,myUserDetailsService,bCryptPasswordEncoder());
+    }
+
+
+
+    @Bean
     public PasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
@@ -76,19 +87,19 @@ public class SecurityConfig {
 
 
     //admin authentication
-    @Bean
-    public AuthenticationProvider inMemoryAuthenticationProvider(){
-
-        UserDetails admin= User.builder()
-                .username(email)
-                .password(bCryptPasswordEncoder().encode(password))
-                .roles("ADMIN")
-                .build();
-
-        DaoAuthenticationProvider daoAuthenticationProvider=new DaoAuthenticationProvider(new InMemoryUserDetailsManager(admin));
-        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
-         return daoAuthenticationProvider;
-    }
+//    @Bean
+//    public AuthenticationProvider inMemoryAuthenticationProvider(){
+//
+//        UserDetails admin= User.builder()
+//                .username(email)
+//                .password(bCryptPasswordEncoder().encode(password))
+//                .roles("ADMIN")
+//                .build();
+//
+//        DaoAuthenticationProvider daoAuthenticationProvider=new DaoAuthenticationProvider(new InMemoryUserDetailsManager(admin));
+//        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
+//         return daoAuthenticationProvider;
+//    }
 
 
 
