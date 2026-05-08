@@ -53,13 +53,23 @@ public class JwtService {
     }
 
 
-    public boolean validateToken(String token, UserDetails userDetails){
-        String email=extractEmail(token);
-        return email.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    public boolean validateToken(String token){
+//        String email=extractEmail(token);
+//        return email.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(getSignKey())
+                    .build()
+                    .parseClaimsJws(token); // throws ExpiredJwtException or SignatureException if invalid
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    private boolean isTokenExpired(String token) {
-            return extractAllClaims(token).getExpiration().before(new Date());
+    public boolean isTokenExpired(String token) {
+
+        return extractAllClaims(token).getExpiration().before(new Date());
     }
 
 

@@ -30,11 +30,7 @@ public class SecurityConfig {
 
 
 
-    @Value("${admin.email}")
-    private String email;
 
-    @Value("${admin.password}")
-    private String password;
 
 
 
@@ -55,6 +51,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers("/api/user_management_service/register").permitAll()
                         .requestMatchers("/api/auth/login").permitAll()
+                        .requestMatchers("/api/auth/validate_token").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -74,7 +71,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtFilter jwtFilter(){
-        return new JwtFilter(jwtService,myUserDetailsService,bCryptPasswordEncoder());
+        return new JwtFilter(jwtService,myUserDetailsService);
     }
 
 

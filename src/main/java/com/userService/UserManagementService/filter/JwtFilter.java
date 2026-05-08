@@ -28,7 +28,6 @@ public class JwtFilter  extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final MyUserDetailsServiceImpl myUserDetailsService;
 
-    private final PasswordEncoder passwordEncoder;
 
     @Override
     public  boolean shouldNotFilter(HttpServletRequest request){
@@ -78,7 +77,7 @@ public class JwtFilter  extends OncePerRequestFilter {
                     return;
                 }
 
-                if (jwtService.validateToken(token, userDetails)) {
+                if (jwtService.validateToken(token)) {
 
                     // Set authentication in Security Context
                     UsernamePasswordAuthenticationToken authToken =

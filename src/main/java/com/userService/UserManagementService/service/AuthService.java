@@ -1,12 +1,16 @@
 package com.userService.UserManagementService.service;
 
 
+import com.userService.UserManagementService.dto.TokenValidationResponse;
 import com.userService.UserManagementService.dto.loginDto.LoginRequestDto;
 import com.userService.UserManagementService.dto.loginDto.LoginResponseDto;
+import com.userService.UserManagementService.model.UserDetailsImpl;
 import com.userService.UserManagementService.model.UserModel;
 import com.userService.UserManagementService.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +25,7 @@ public class AuthService {
     private final UserRepository repo;
 
     private final PasswordEncoder passwordEncoder;
+
 
     @Value("${admin.email}")
     private String email;
@@ -64,4 +69,5 @@ public class AuthService {
         }
         return new LoginResponseDto("failure", null, null, null);
     }
+
 }
