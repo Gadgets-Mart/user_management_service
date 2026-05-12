@@ -45,6 +45,7 @@ public class SecurityConfig {
 
         http
                 .csrf(s->s.disable())
+                .cors(Customizer.withDefaults())
 //                .httpBasic(Customizer.withDefaults())   //Basic Auth Enabled
                 .authenticationProvider(dbAuthenticationProvider())
 //                .authenticationProvider(inMemoryAuthenticationProvider())
